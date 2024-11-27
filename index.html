@@ -1,23 +1,40 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выбор опций</title>
+    <title>Мини-приложение</title>
+    <script>
+        // Функция для отправки выбранных опций обратно в Telegram
+        function sendData() {
+            const selectedOptions = [];
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach((checkbox) => {
+                selectedOptions.push(checkbox.value);
+            });
+
+            // Отправка данных обратно в Telegram
+            if (selectedOptions.length > 0) {
+                window.Telegram.WebApp.sendData(JSON.stringify(selectedOptions));
+            } else {
+                alert("Выберите хотя бы один вариант!");
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Выберите опции</h1>
-    <form action="http://localhost:5000/api/handle-selection" method="POST">
-        <label>
-            <input type="checkbox" name="selected_options" value="Option 1"> Опция 1
-        </label><br>
-        <label>
-            <input type="checkbox" name="selected_options" value="Option 2"> Опция 2
-        </label><br>
-        <label>
-            <input type="checkbox" name="selected_options" value="Option 3"> Опция 3
-        </label><br>
-        <button type="submit">Отправить</button>
+    <form>
+        <input type="checkbox" id="option1" value="Option 1">
+        <label for="option1">Option 1</label><br>
+
+        <input type="checkbox" id="option2" value="Option 2">
+        <label for="option2">Option 2</label><br>
+
+        <input type="checkbox" id="option3" value="Option 3">
+        <label for="option3">Option 3</label><br><br>
+
+        <button type="button" onclick="sendData()">Отправить</button>
     </form>
 </body>
 </html>
